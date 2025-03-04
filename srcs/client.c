@@ -1,41 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sshabali <sshabali@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 01:44:57 by sshabali          #+#    #+#             */
-/*   Updated: 2025/03/04 21:59:30 by sshabali         ###   ########.fr       */
+/*   Created: 2025/03/04 21:09:54 by sshabali          #+#    #+#             */
+/*   Updated: 2025/03/04 21:57:22 by sshabali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 #include <signal.h>
+#include <unistd.h>
 
-void	handler_sig1(int sig)
+int	send_text(int pid, char *text)
 {
-	if (sig == SIGUSR1)
-		ft_printf("Got SIGUSR1\n");
+	int	str_len;
+	int	*bin;
+	int	i;
+
+	str_len = (int)ft_strlen(text);
+	bin = uint2binary(str_len);
+	i = 0;
+	while (i <= 31)
+	{
+		usleep(700);
+		if (bin[i])
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		i++;
+	}
+	return (str_len);
 }
 
-void	handler_sig2(int sig)
+int	main(int argc, char **argv)
 {
-	if (sig == SIGUSR2)
-		ft_printf("Got SIGUSR2\n");
-}
+	int	pid;
 
-int	main()
-{
-	int	a;
-
-	a = getpid();
-	ft_printf("Server PID: %i\n", a);
-	signal(SIGUSR1, handler_sig1);
-	signal(SIGUSR2, handler_sig2);
-	sigaddset(sigset_t *set, int signo)
-	while(1)
-		pause();
+	if (argc < 2 || argc > 4)
+		return (1);
 	
-	return (0);
+	pid = ft_atoi(argv[1]);
+	send_text(pid, argv[2]);
 }
