@@ -11,10 +11,11 @@ LIBFT = ./includes/libft/libft.a
 
 SRC = 	srcs/server.c
 
-SRC_S = srcs/server.c	\
-		srcs/int_converter.c
-SRC_C = srcs/client.c	\
-		srcs/int_converter.c
+SRC_S = srcs/server.c
+SRC_C = srcs/client.c
+
+SRC_SB = srcs/server_bonus.c
+SRC_CB = srcs/client_bonus.c
 
 all: $(NAME_S) $(NAME_C)
 
@@ -29,6 +30,20 @@ $(NAME_C): $(SRC:.c=.o)
 	echo "LIBFT done"
 	$(CC) $(CFLAGS) -lm $(SRC_C) $(LIBFT) -o $(NAME_C)
 	echo "Client is ready"
+
+$(NAME_SB): $(SRC:.c=.o)
+	$(MAKE) --no-print-directory -C ./includes/libft
+	echo "LIBFT done"
+	$(CC) $(CFLAGS) -lm $(SRC_SB) $(LIBFT) -o $(NAME_SB)
+	echo "Server bonus is ready"
+
+$(NAME_CB): $(SRC:.c=.o)
+	$(MAKE) --no-print-directory -C ./includes/libft
+	echo "LIBFT done"
+	$(CC) $(CFLAGS) -lm $(SRC_CB) $(LIBFT) -o $(NAME_CB)
+	echo "Client bonus is ready"
+
+bonus: server_bonus client_bonus
 
 clean:
 	$(MAKE) clean -C ./includes/libft
