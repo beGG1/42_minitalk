@@ -9,7 +9,11 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g 
 LIBFT = ./includes/libft/libft.a
 
-SRC = 	srcs/server.c
+SRC = 	srcs/server.c \
+		srcs/client.c
+
+SRC_B = srcs/server_bonus.c \
+		srcs/client_bonus.c
 
 SRC_S = srcs/server.c
 SRC_C = srcs/client.c
@@ -31,13 +35,13 @@ $(NAME_C): $(SRC:.c=.o)
 	$(CC) $(CFLAGS) -lm $(SRC_C) $(LIBFT) -o $(NAME_C)
 	echo "Client is ready"
 
-$(NAME_SB): $(SRC:.c=.o)
+$(NAME_SB): $(SRC_B:.c=.o)
 	$(MAKE) --no-print-directory -C ./includes/libft
 	echo "LIBFT done"
 	$(CC) $(CFLAGS) -lm $(SRC_SB) $(LIBFT) -o $(NAME_SB)
 	echo "Server bonus is ready"
 
-$(NAME_CB): $(SRC:.c=.o)
+$(NAME_CB): $(SRC_B:.c=.o)
 	$(MAKE) --no-print-directory -C ./includes/libft
 	echo "LIBFT done"
 	$(CC) $(CFLAGS) -lm $(SRC_CB) $(LIBFT) -o $(NAME_CB)
