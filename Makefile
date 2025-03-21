@@ -52,6 +52,7 @@ bonus: server_bonus client_bonus
 clean:
 	$(MAKE) clean -C ./includes/libft
 	rm -rf $(SRC:.c=.o)
+	rm -rf $(SRC_B:.c=.o)
 	echo "OBJ deleted"
 
 fclean: clean
